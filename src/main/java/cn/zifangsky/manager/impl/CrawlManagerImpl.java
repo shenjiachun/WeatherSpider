@@ -45,4 +45,9 @@ public class CrawlManagerImpl implements CrawlManager {
 		.run();
 	}
 
+	@Override
+	public void stockList() {
+
+	}
+
 }
