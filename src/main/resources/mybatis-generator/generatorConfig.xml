@@ -3,7 +3,7 @@
 <generatorConfiguration>
     <!--数据库驱动 -->
     <classPathEntry
-            location="D:/maven-repo/mysql/mysql-connector-java/5.1.45/mysql-connector-java-5.1.45.jar" />
+            location="C:/Users/shenjiachun/.m2/repository/mysql/mysql-connector-java/5.1.6/mysql-connector-java-5.1.6.jar" />
 
     <context id="my" targetRuntime="MyBatis3">
         <commentGenerator>
@@ -13,7 +13,7 @@
         <!-- 数据库连接信息 -->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
                         connectionURL="jdbc:mysql://127.0.0.1:3306/weatherspider?useUnicode=true&amp;characterEncoding=utf-8&amp;allowMultiQueries=true" userId="root"
-                        password="root" />
+                        password="" />
 
         <!-- 只有一个属于forceBigDecimals，默认false。 如果字段精确超过0，生成BigDecimal 如果字段精确是0，总长度10-18生成Long;如果字段精确是0，
             总长5-9生成Integer; 如果字段精确是0，总长小于5生成Short; 如果forceBigDecimals为true,统一生成BigDecimal -->
@@ -45,7 +45,7 @@
         </javaClientGenerator>
 
         <!-- 待生成的数据库中的表名，生成一个表对应的Java和xml文件就需要配置一段 -->
-        <table tableName="weather_weather" domainObjectName="WeatherWeather"
+        <table tableName="stock_info" domainObjectName="StockInfo"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">

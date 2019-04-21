@@ -107,4 +107,13 @@ public class ProxyIpController {
         crawlManager.proxyIPCrawl2();
     }
 
+
+    @RequestMapping(value = "/stockList",produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    public void stockList(){
+        Date current = new Date();
+        LOGGER.debug(MessageFormat.format("开始执行stockList，Date：{0}",FORMAT.format(current)));
+
+        crawlManager.stockList();
+    }
+
 }
