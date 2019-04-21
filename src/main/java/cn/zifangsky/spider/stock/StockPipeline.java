@@ -31,7 +31,7 @@ public class StockPipeline implements Pipeline {
 
             log.info("保存stockInfo:{}" ,stockInfo);
 
-            stockInfoMapper.insert(stockInfo);
+            stockInfoMapper.insertSelective(stockInfo);
         }
 
     }

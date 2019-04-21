@@ -55,7 +55,8 @@ public class CrawlManagerImpl implements CrawlManager {
         OOSpider.create(new StockListSpider())
 //                .addUrl("https://basic.10jqka.com.cn/mobile/000927/pubn.html").addPipeline(stockPipeline)
                 .addUrl("http://www.bestopview.com/stocklist.html").addPipeline(stockPipeline)
-                .thread(2).run();
+
+                .thread(6).run();
     }
 
 }
