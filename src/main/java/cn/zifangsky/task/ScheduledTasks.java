@@ -8,6 +8,7 @@ import cn.zifangsky.model.WeatherStation;
 import cn.zifangsky.model.bo.ProxyIpBO;
 import cn.zifangsky.mq.producer.CheckIPSender;
 import cn.zifangsky.mq.producer.WeatherUpdateSender;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,6 +16,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.io.IOException;
+import java.net.*;
 import java.text.Format;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
@@ -29,6 +32,7 @@ import java.util.List;
  * @since 1.0.0
  */
 @Component
+@Slf4j
 public class ScheduledTasks {
     private static final Logger LOGGER = LoggerFactory.getLogger(ScheduledTasks.class);
     private final Format FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -101,7 +105,42 @@ public class ScheduledTasks {
                 proxyIpBO.setCheckType(ProxyIpBO.CheckIPType.UPDATE);
 
                 //3 添加到队列中
-                checkIPSender.send(checkIPTopicName, proxyIpBO);
+//                checkIPSender.send(checkIPTopicName, proxyIpBO);
+
+                URL tmpURL = null;
+                try {
+                    tmpURL = new URL("https://www.sogou.com");
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+                //代理服务器
+                InetSocketAddress proxyAddr = new InetSocketAddress(proxyIp.getIp(), Integer.valueOf(proxyIpBO.getPort()));
+                Proxy proxy = new Proxy(Proxy.Type.HTTP, proxyAddr);
+                HttpURLConnection conn = null;
+                try {
+                    conn = (HttpURLConnection) tmpURL.openConnection(proxy);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                conn.setReadTimeout(5000);
+                conn.setConnectTimeout(5000);
+                try {
+                    conn.setRequestMethod("GET");
+                } catch (ProtocolException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    if(conn.getResponseCode() != 200){
+                        log.info("删除ip:{}",proxyIpBO);
+                        proxyIpManager.deleteByPrimaryKey(proxyIp.getId());
+                    }
+                } catch (IOException e) {
+                    log.info("删除ip:{}",proxyIpBO);
+                    proxyIpManager.deleteByPrimaryKey(proxyIp.getId());
+                }
+
+
             });
         }
     }
