@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.zifangsky.mapper.StockInfoMapper">
+    <resultMap id="BaseResultMap" type="cn.zifangsky.model.StockInfo">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="zt_text" jdbcType="VARCHAR" property="ztText"/>
+        <result column="zt_type" jdbcType="VARCHAR" property="ztType"/>
+        <result column="zq_date" jdbcType="TIMESTAMP" property="zqDate"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, code, zt_text, zt_type, zq_date
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from stock_info
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from stock_info
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="cn.zifangsky.model.StockInfo">
+    insert IGNORE into stock_info (id, code, zt_text,
+      zt_type, zq_date)
+    values (#{id,jdbcType=BIGINT}, #{code,jdbcType=VARCHAR}, #{ztText,jdbcType=VARCHAR}, 
+      #{ztType,jdbcType=VARCHAR}, #{zqDate,jdbcType=TIMESTAMP})
+  </insert>
+
+
+    <insert id="batchInsert" parameterType="java.util.List">
+
+        insert IGNORE into stock_info (code, zt_text,
+        zt_type, zq_date)
+
+        values
+
+        <foreach collection="list" item="item" index="index"
+                 separator=",">
+            ( #{item.code,jdbcType=VARCHAR}, #{item.ztText,jdbcType=VARCHAR},
+            #{item.ztType,jdbcType=VARCHAR}, #{item.zqDate,jdbcType=TIMESTAMP})
+        </foreach>
+
+    </insert>
+
+
+    <insert id="insertSelective" parameterType="cn.zifangsky.model.StockInfo">
+        insert IGNORE into stock_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="code != null">
+                code,
+            </if>
+            <if test="ztText != null">
+                zt_text,
+            </if>
+            <if test="ztType != null">
+                zt_type,
+            </if>
+            <if test="zqDate != null">
+                zq_date,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="code != null">
+                #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="ztText != null">
+                #{ztText,jdbcType=VARCHAR},
+            </if>
+            <if test="ztType != null">
+                #{ztType,jdbcType=VARCHAR},
+            </if>
+            <if test="zqDate != null">
+                #{zqDate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="cn.zifangsky.model.StockInfo">
+        update stock_info
+        <set>
+            <if test="code != null">
+                code = #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="ztText != null">
+                zt_text = #{ztText,jdbcType=VARCHAR},
+            </if>
+            <if test="ztType != null">
+                zt_type = #{ztType,jdbcType=VARCHAR},
+            </if>
+            <if test="zqDate != null">
+                zq_date = #{zqDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="cn.zifangsky.model.StockInfo">
+    update stock_info
+    set code = #{code,jdbcType=VARCHAR},
+      zt_text = #{ztText,jdbcType=VARCHAR},
+      zt_type = #{ztType,jdbcType=VARCHAR},
+      zq_date = #{zqDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

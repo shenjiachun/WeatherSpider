@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.zifangsky.mapper.StockYearReportMapper">
+    <resultMap id="BaseResultMap" type="cn.zifangsky.model.StockYearReport">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="mgsy" jdbcType="DECIMAL" property="mgsy"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="type" jdbcType="VARCHAR" property="type"/>
+        <result column="report_date" jdbcType="TIMESTAMP" property="reportDate"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="created_at" jdbcType="TIMESTAMP" property="createdAt"/>
+        <result column="desc" jdbcType="VARCHAR" property="desc"/>
+        <result column="jlr" jdbcType="DECIMAL" property="jlr"/>
+        <result column="zzl" jdbcType="DECIMAL" property="zzl"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, mgsy, code, type, report_date, content, created_at, desc, jlr, zzl
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from stock_year_report
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from stock_year_report
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="cn.zifangsky.model.StockYearReport">
+    insert into stock_year_report (id, mgsy, code, 
+      type, report_date, content, 
+      created_at, desc, jlr, 
+      zzl)
+    values (#{id,jdbcType=BIGINT}, #{mgsy,jdbcType=DECIMAL}, #{code,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR}, #{reportDate,jdbcType=TIMESTAMP}, #{content,jdbcType=VARCHAR}, 
+      #{createdAt,jdbcType=TIMESTAMP}, #{desc,jdbcType=VARCHAR}, #{jlr,jdbcType=DECIMAL}, 
+      #{zzl,jdbcType=DECIMAL})
+  </insert>
+
+
+    <insert id="batchInsert" parameterType="java.util.List">
+
+
+        insert IGNORE into stock_year_report ( mgsy, code,
+        type, report_date, content,
+        created_at, jlr,
+        zzl)
+        values
+
+        <foreach collection="list" item="item" index="index"
+                 separator=",">
+            ( #{item.mgsy,jdbcType=DECIMAL}, #{item.code,jdbcType=VARCHAR},
+            #{item.type,jdbcType=VARCHAR}, #{item.reportDate,jdbcType=TIMESTAMP}, #{item.content,jdbcType=VARCHAR},
+            #{item.createdAt,jdbcType=TIMESTAMP},  #{item.jlr,jdbcType=DECIMAL},
+            #{item.zzl,jdbcType=DECIMAL})
+        </foreach>
+
+    </insert>
+
+    <insert id="insertSelective" parameterType="cn.zifangsky.model.StockYearReport">
+        insert into stock_year_report
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="mgsy != null">
+                mgsy,
+            </if>
+            <if test="code != null">
+                code,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="reportDate != null">
+                report_date,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            <if test="createdAt != null">
+                created_at,
+            </if>
+            <if test="desc != null">
+                desc,
+            </if>
+            <if test="jlr != null">
+                jlr,
+            </if>
+            <if test="zzl != null">
+                zzl,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="mgsy != null">
+                #{mgsy,jdbcType=DECIMAL},
+            </if>
+            <if test="code != null">
+                #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="reportDate != null">
+                #{reportDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="createdAt != null">
+                #{createdAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="desc != null">
+                #{desc,jdbcType=VARCHAR},
+            </if>
+            <if test="jlr != null">
+                #{jlr,jdbcType=DECIMAL},
+            </if>
+            <if test="zzl != null">
+                #{zzl,jdbcType=DECIMAL},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="cn.zifangsky.model.StockYearReport">
+        update stock_year_report
+        <set>
+            <if test="mgsy != null">
+                mgsy = #{mgsy,jdbcType=DECIMAL},
+            </if>
+            <if test="code != null">
+                code = #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="reportDate != null">
+                report_date = #{reportDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="content != null">
+                content = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="createdAt != null">
+                created_at = #{createdAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="desc != null">
+                desc = #{desc,jdbcType=VARCHAR},
+            </if>
+            <if test="jlr != null">
+                jlr = #{jlr,jdbcType=DECIMAL},
+            </if>
+            <if test="zzl != null">
+                zzl = #{zzl,jdbcType=DECIMAL},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="cn.zifangsky.model.StockYearReport">
+    update stock_year_report
+    set mgsy = #{mgsy,jdbcType=DECIMAL},
+      code = #{code,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      report_date = #{reportDate,jdbcType=TIMESTAMP},
+      content = #{content,jdbcType=VARCHAR},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      desc = #{desc,jdbcType=VARCHAR},
+      jlr = #{jlr,jdbcType=DECIMAL},
+      zzl = #{zzl,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
