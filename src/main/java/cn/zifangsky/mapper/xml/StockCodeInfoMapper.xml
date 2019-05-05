@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.zifangsky.mapper.StockCodeInfoMapper">
+  <resultMap id="BaseResultMap" type="cn.zifangsky.model.StockCodeInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="area" jdbcType="VARCHAR" property="area" />
+    <result column="industry" jdbcType="VARCHAR" property="industry" />
+    <result column="fullname" jdbcType="VARCHAR" property="fullname" />
+    <result column="market" jdbcType="VARCHAR" property="market" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, type, code, area, industry, fullname, market
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from stock_code_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from stock_code_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.zifangsky.model.StockCodeInfo">
+    insert into stock_code_info (id, type, code, 
+      area, industry, fullname, 
+      market)
+    values (#{id,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
+      #{area,jdbcType=VARCHAR}, #{industry,jdbcType=VARCHAR}, #{fullname,jdbcType=VARCHAR}, 
+      #{market,jdbcType=VARCHAR})
+  </insert>
+
+
+  <insert id="batchInsert" parameterType="cn.zifangsky.model.StockCodeInfo">
+
+    insert IGNORE into stock_code_info ( type, code,
+      area, industry, fullname,
+      market,name)
+    values
+    <foreach collection="list" item="item" index="index"
+             separator=",">
+      ( #{item.type,jdbcType=VARCHAR}, #{item.code,jdbcType=VARCHAR},
+      #{item.area,jdbcType=VARCHAR}, #{item.industry,jdbcType=VARCHAR},
+      #{item.fullname,jdbcType=VARCHAR},
+      #{item.market,jdbcType=VARCHAR},
+      #{item.name,jdbcType=VARCHAR}
+
+      )
+    </foreach>
+
+</insert>
+
+
+
+  <select id="deleteStockCodeInfo" >
+    TRUNCATE stock_code_info
+
+  </select>
+
+  <insert id="insertSelective" parameterType="cn.zifangsky.model.StockCodeInfo">
+    insert into stock_code_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="area != null">
+        area,
+      </if>
+      <if test="industry != null">
+        industry,
+      </if>
+      <if test="fullname != null">
+        fullname,
+      </if>
+      <if test="market != null">
+        market,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null">
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="industry != null">
+        #{industry,jdbcType=VARCHAR},
+      </if>
+      <if test="fullname != null">
+        #{fullname,jdbcType=VARCHAR},
+      </if>
+      <if test="market != null">
+        #{market,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.zifangsky.model.StockCodeInfo">
+    update stock_code_info
+    <set>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null">
+        area = #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="industry != null">
+        industry = #{industry,jdbcType=VARCHAR},
+      </if>
+      <if test="fullname != null">
+        fullname = #{fullname,jdbcType=VARCHAR},
+      </if>
+      <if test="market != null">
+        market = #{market,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.zifangsky.model.StockCodeInfo">
+    update stock_code_info
+    set type = #{type,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR},
+      area = #{area,jdbcType=VARCHAR},
+      industry = #{industry,jdbcType=VARCHAR},
+      fullname = #{fullname,jdbcType=VARCHAR},
+      market = #{market,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

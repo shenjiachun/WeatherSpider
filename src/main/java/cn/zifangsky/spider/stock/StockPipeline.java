@@ -1,8 +1,10 @@
 package cn.zifangsky.spider.stock;
 
+import cn.zifangsky.mapper.StockCodeInfoMapper;
 import cn.zifangsky.mapper.StockInfoMapper;
 import cn.zifangsky.mapper.StockTopHoldersMapper;
 import cn.zifangsky.mapper.StockYearReportMapper;
+import cn.zifangsky.model.StockCodeInfo;
 import cn.zifangsky.model.StockInfo;
 import cn.zifangsky.model.StockTopHolders;
 import cn.zifangsky.model.StockYearReport;
@@ -35,6 +37,9 @@ public class StockPipeline implements Pipeline {
     @Autowired
     StockTopHoldersMapper stockTopHoldersMapper;
 
+    @Autowired
+    StockCodeInfoMapper stockCodeInfoMapper;
+
     @Override
     public void process(ResultItems resultItems, Task task) {
 
@@ -43,6 +48,8 @@ public class StockPipeline implements Pipeline {
         List<StockYearReport> reportList = resultItems.get("report");
 
         List<StockTopHolders> stockTopHolders = resultItems.get("stockTopHolders");
+
+        List<StockCodeInfo> stockCodeInfos = resultItems.get("stockCodeInfo");
 
         if (list != null && list.size() > 0) {
 
@@ -60,6 +67,15 @@ public class StockPipeline implements Pipeline {
 
             log.info("保存stockTopHolders:{}", stockTopHolders.size());
             stockTopHoldersMapper.batchInsert(stockTopHolders);
+        }
+
+        if (!CollectionUtils.isEmpty(stockCodeInfos)) {
+
+            stockCodeInfoMapper.deleteStockCodeInfo();
+
+            log.info("保存stockCodeInfos:{}", stockCodeInfos.size());
+
+            stockCodeInfoMapper.batchInsert(stockCodeInfos);
         }
 
 
