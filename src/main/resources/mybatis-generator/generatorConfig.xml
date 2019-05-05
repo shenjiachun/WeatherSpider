@@ -45,7 +45,7 @@
         </javaClientGenerator>
 
         <!-- 待生成的数据库中的表名，生成一个表对应的Java和xml文件就需要配置一段 -->
-        <table tableName="stock_top_holders" domainObjectName="StockTopHolders"
+        <table tableName="stock_code_info" domainObjectName="StockCodeInfo"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">

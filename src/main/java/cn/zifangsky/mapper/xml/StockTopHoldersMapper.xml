@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.zifangsky.mapper.StockTopHoldersMapper">
+    <resultMap id="BaseResultMap" type="cn.zifangsky.model.StockTopHolders">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="ann_date" jdbcType="TIMESTAMP" property="annDate"/>
+        <result column="end_date" jdbcType="TIMESTAMP" property="endDate"/>
+        <result column="holder_name" jdbcType="VARCHAR" property="holderName"/>
+        <result column="hold_amount" jdbcType="DECIMAL" property="holdAmount"/>
+        <result column="hold_ratio" jdbcType="DECIMAL" property="holdRatio"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, code, ann_date, end_date, holder_name, hold_amount, hold_ratio
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from stock_top_holders
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from stock_top_holders
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="cn.zifangsky.model.StockTopHolders">
+    insert into stock_top_holders (id, code, ann_date, 
+      end_date, holder_name, hold_amount, 
+      hold_ratio)
+    values (#{id,jdbcType=BIGINT}, #{code,jdbcType=VARCHAR}, #{annDate,jdbcType=TIMESTAMP},
+      #{endDate,jdbcType=TIMESTAMP}, #{holderName,jdbcType=VARCHAR}, #{holdAmount,jdbcType=DECIMAL},
+      #{holdRatio,jdbcType=DECIMAL})
+  </insert>
+
+
+    <insert id="batchInsert" parameterType="java.util.List">
+
+        insert IGNORE into stock_top_holders (code, ann_date,
+        end_date, holder_name, hold_amount,
+        hold_ratio)
+        values
+
+        <foreach collection="list" item="item" index="index"
+                 separator=",">
+            ( #{item.code,jdbcType=VARCHAR}, #{item.annDate,jdbcType=TIMESTAMP},
+            #{item.endDate,jdbcType=TIMESTAMP}, #{item.holderName,jdbcType=VARCHAR},
+            #{item.holdAmount,jdbcType=DECIMAL},
+            #{item.holdRatio,jdbcType=DECIMAL})
+        </foreach>
+    </insert>
+
+
+    <insert id="insertSelective" parameterType="cn.zifangsky.model.StockTopHolders">
+        insert into stock_top_holders
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="code != null">
+                code,
+            </if>
+            <if test="annDate != null">
+                ann_date,
+            </if>
+            <if test="endDate != null">
+                end_date,
+            </if>
+            <if test="holderName != null">
+                holder_name,
+            </if>
+            <if test="holdAmount != null">
+                hold_amount,
+            </if>
+            <if test="holdRatio != null">
+                hold_ratio,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="code != null">
+                #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="annDate != null">
+                #{annDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endDate != null">
+                #{endDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="holderName != null">
+                #{holderName,jdbcType=VARCHAR},
+            </if>
+            <if test="holdAmount != null">
+                #{holdAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="holdRatio != null">
+                #{holdRatio,jdbcType=DECIMAL},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="cn.zifangsky.model.StockTopHolders">
+        update stock_top_holders
+        <set>
+            <if test="code != null">
+                code = #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="annDate != null">
+                ann_date = #{annDate,jdbcType=BIGINT},
+            </if>
+            <if test="endDate != null">
+                end_date = #{endDate,jdbcType=BIGINT},
+            </if>
+            <if test="holderName != null">
+                holder_name = #{holderName,jdbcType=VARCHAR},
+            </if>
+            <if test="holdAmount != null">
+                hold_amount = #{holdAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="holdRatio != null">
+                hold_ratio = #{holdRatio,jdbcType=DECIMAL},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="cn.zifangsky.model.StockTopHolders">
+    update stock_top_holders
+    set code = #{code,jdbcType=VARCHAR},
+      ann_date = #{annDate,jdbcType=BIGINT},
+      end_date = #{endDate,jdbcType=BIGINT},
+      holder_name = #{holderName,jdbcType=VARCHAR},
+      hold_amount = #{holdAmount,jdbcType=DECIMAL},
+      hold_ratio = #{holdRatio,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
