@@ -1,8 +1,10 @@
 package cn.zifangsky.spider.stock;
 
 import cn.zifangsky.mapper.StockInfoMapper;
+import cn.zifangsky.mapper.StockTopHoldersMapper;
 import cn.zifangsky.mapper.StockYearReportMapper;
 import cn.zifangsky.model.StockInfo;
+import cn.zifangsky.model.StockTopHolders;
 import cn.zifangsky.model.StockYearReport;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,24 +32,35 @@ public class StockPipeline implements Pipeline {
     @Autowired
     StockYearReportMapper stockYearReportMapper;
 
+    @Autowired
+    StockTopHoldersMapper stockTopHoldersMapper;
+
     @Override
     public void process(ResultItems resultItems, Task task) {
 
         List<StockInfo> list = resultItems.get("result");
+
         List<StockYearReport> reportList = resultItems.get("report");
 
-        if (list!=null&&list.size()>0) {
+        List<StockTopHolders> stockTopHolders = resultItems.get("stockTopHolders");
 
-            log.info("保存stockInfo:{}" ,list.size());
+        if (list != null && list.size() > 0) {
+
+            log.info("保存stockInfo:{}", list.size());
 
             stockInfoMapper.batchInsert(list);
         }
 
         if (!CollectionUtils.isEmpty(reportList)) {
-            log.info("保存StockYearReport:{}" ,list.size());
+            log.info("保存StockYearReport:{}", list.size());
             stockYearReportMapper.batchInsert(reportList);
         }
 
+        if (stockTopHolders != null && stockTopHolders.size() > 0) {
+
+            log.info("保存stockTopHolders:{}", stockTopHolders.size());
+            stockTopHoldersMapper.batchInsert(stockTopHolders);
+        }
 
 
     }

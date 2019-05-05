@@ -32,14 +32,17 @@
     <insert id="batchInsert" parameterType="java.util.List">
 
         insert IGNORE into stock_info (code, zt_text,
-        zt_type, zq_date)
+        zt_type, zq_date,ztdesc)
 
         values
 
         <foreach collection="list" item="item" index="index"
                  separator=",">
             ( #{item.code,jdbcType=VARCHAR}, #{item.ztText,jdbcType=VARCHAR},
-            #{item.ztType,jdbcType=VARCHAR}, #{item.zqDate,jdbcType=TIMESTAMP})
+            #{item.ztType,jdbcType=VARCHAR}, #{item.zqDate,jdbcType=TIMESTAMP}
+            ,#{item.ztdesc,jdbcType=VARCHAR}
+
+            )
         </foreach>
 
     </insert>

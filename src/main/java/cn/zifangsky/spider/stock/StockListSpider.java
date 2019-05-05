@@ -1,18 +1,26 @@
 package cn.zifangsky.spider.stock;
 
+import cn.zifangsky.config.SpringContext;
+import cn.zifangsky.model.StockCodeInfo;
 import cn.zifangsky.model.StockInfo;
 import cn.zifangsky.model.StockYearReport;
 import cn.zifangsky.spider.UserAgentUtils;
+import cn.zifangsky.third.api.TushareApi;
 import com.google.common.collect.Lists;
 import com.hankcs.hanlp.HanLP;
 import com.hankcs.hanlp.corpus.document.sentence.Sentence;
 import com.hankcs.hanlp.corpus.document.sentence.word.IWord;
 import com.hankcs.hanlp.dictionary.CustomDictionary;
 import com.hankcs.hanlp.model.crf.CRFLexicalAnalyzer;
+import com.hankcs.hanlp.seg.common.Term;
+import com.hankcs.hanlp.tokenizer.NLPTokenizer;
 import lombok.extern.slf4j.Slf4j;
+import org.assertj.core.util.Strings;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
@@ -23,6 +31,8 @@ import us.codecraft.xsoup.xevaluator.ElementOperator;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,7 +43,9 @@ import java.util.regex.Pattern;
  * @description
  */
 @Slf4j
+@Component
 public class StockListSpider implements PageProcessor {
+
 
     DateTimeFormatter format = DateTimeFormat.forPattern("yyyy-MM-dd");
 
@@ -43,16 +55,24 @@ public class StockListSpider implements PageProcessor {
         if (page.getUrl().regex("http://www.bestopview.com").match()) {
 
             List<String> stringList = page.getHtml().xpath("/html/body/div/ul/li/a/@href").regex("\\s*(\\d[\\.\\d]*\\d)").all();
+            log.info("代码:{}", stringList);
 
-            stringList.stream().forEach(
+            TushareApi tushareApi = (TushareApi) SpringContext.getBean("tushareApi");
+            List<StockCodeInfo> stocks = tushareApi.stocks();
+
+            Collections.reverse(stocks);
+
+            stocks.stream().forEach(
                     item -> {
 
-                        String url = "https://basic.10jqka.com.cn/mobile/" + item + "/pubn.html";
+                        log.info("股票信息:{}", item);
+
+                        String url = "https://basic.10jqka.com.cn/mobile/" + item.getCode() + "/pubn.html";
 
                         page.addTargetRequest(url);
-
                     }
             );
+
         }
 //https://data.hexin.cn/financial/cb/?origin=yjgg
         if (page.getUrl().regex("basic.10jqka.com").match()) {
@@ -89,9 +109,8 @@ public class StockListSpider implements PageProcessor {
 //                    log.info("分词结果:{}", sentence);
 
 
-
-                    if (contents.get(i).indexOf("2019年一季报每股收益")>=0
-                            || contents.get(i).indexOf("2018年年报每股收益")>=0) {
+                    if (contents.get(i).indexOf("2019年一季报每股收益") >= 0
+                            || contents.get(i).indexOf("2018年年报每股收益") >= 0) {
 
                         String filetext = contents.get(i).replaceAll("，", "");
 
@@ -128,7 +147,10 @@ public class StockListSpider implements PageProcessor {
 
                         if (m2.find()) {
                             String group = m2.group();
-                            zzl = new BigDecimal(group);
+                            if (!Strings.isNullOrEmpty(group)) {
+
+                                zzl = new BigDecimal(group);
+                            }
                         }
 
 
@@ -137,15 +159,15 @@ public class StockListSpider implements PageProcessor {
                                 .zzl(zzl)
                                 .jlr(jlr).reportDate(dateTime.toDate()).build();
 
-                        if (contents.get(i).indexOf("2019年一季报每股收益")>=0) {
+                        if (contents.get(i).indexOf("2019年一季报每股收益") >= 0) {
                             stockYearReport.setType("1");
-                        } else if (contents.get(i).indexOf("2018年年报每股收益")>=0) {
+                        } else if (contents.get(i).indexOf("2018年年报每股收益") >= 0) {
                             stockYearReport.setType("6");
-                        } else if (contents.get(i).indexOf("2019年二季报每股收益")>=0) {
+                        } else if (contents.get(i).indexOf("2019年二季报每股收益") >= 0) {
                             stockYearReport.setType("2");
-                        } else if (contents.get(i).indexOf("2019年三季报每股收益")>=0) {
+                        } else if (contents.get(i).indexOf("2019年三季报每股收益") >= 0) {
                             stockYearReport.setType("3");
-                        } else if (contents.get(i).indexOf("2019年四季报每股收益")>=0) {
+                        } else if (contents.get(i).indexOf("2019年四季报每股收益") >= 0) {
                             stockYearReport.setType("4");
                         }
 
@@ -154,8 +176,19 @@ public class StockListSpider implements PageProcessor {
 
                     }
 
+                    List<Term> segment = NLPTokenizer.segment(contents.get(i).replaceAll("：", "")
+                            .replaceAll("；", "").replaceAll("，", ""));
 
-                    StockInfo stockInfo = StockInfo.builder().code(code).zqDate(dateTime.toDate())
+                    log.info("分词内容：{}", segment);
+
+                    String desc = "";
+                    if (segment.size() >= 3) {
+                        desc = segment.get(segment.size() - 3).word + segment.get(segment.size() - 2).word + segment.get(segment.size() - 1).word;
+                    } else {
+                        desc = contents.get(i);
+                    }
+
+                    StockInfo stockInfo = StockInfo.builder().code(code).zqDate(dateTime.toDate()).ztdesc(desc)
                             .ztText(contents.get(i)).ztType(trim).build();
 
                     log.info("需要处理的信息：{}", stockInfo);
