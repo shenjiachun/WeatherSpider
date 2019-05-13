@@ -12,6 +12,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.hankcs.hanlp.seg.common.Term;
 import com.hankcs.hanlp.tokenizer.NLPTokenizer;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +31,9 @@ import us.codecraft.webmagic.utils.HttpConstant;
 
 import java.math.BigDecimal;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -58,8 +61,6 @@ public class StockTopHoldersSpider implements PageProcessor {
 
             page.putField("stockCodeInfo", stocks);
 //            Collections.reverse(stocks);
-
-
 
 
             stocks.stream().forEach(
@@ -104,20 +105,34 @@ public class StockTopHoldersSpider implements PageProcessor {
             5 = "hold_ratio"*/
 
 
+            Map<String, String> map = Maps.newHashMap();
             List<StockTopHolders> list = Lists.newArrayList();
 
             for (int i = 0; i < jsonArray.size(); i++) {
 
                 JSONArray signalJsonArray = (JSONArray) jsonArray.get(i);
+                String code = Splitter.on(".").splitToList(signalJsonArray.getString(0)).get(0);
+                Date annDate = signalJsonArray.getDate(1);
+                Date endDate = signalJsonArray.getDate(2);
+                String holderName = signalJsonArray.getString(3);
+                BigDecimal holdAmount = signalJsonArray.getBigDecimal(4);
+                BigDecimal holdRatio = signalJsonArray.getBigDecimal(5);
+
+                String key = code + annDate + endDate + holderName + holdAmount + holdRatio;
 
                 StockTopHolders stockTopHolders = StockTopHolders.builder()
-                        .code(Splitter.on(".").splitToList(signalJsonArray.getString(0)).get(0))
-                        .annDate(signalJsonArray.getDate(1))
-                        .endDate(signalJsonArray.getDate(2))
-                        .holderName(signalJsonArray.getString(3))
-                        .holdAmount(signalJsonArray.getBigDecimal(4))
-                        .holdRatio(signalJsonArray.getBigDecimal(5)).build();
-                list.add(stockTopHolders);
+                        .code(code)
+                        .annDate(annDate)
+                        .endDate(endDate)
+                        .holderName(holderName)
+                        .holdAmount(holdAmount)
+                        .holdRatio(holdRatio).build();
+
+                if (!map.containsKey(key)) {
+                    list.add(stockTopHolders);
+                }
+
+                map.put(key,key);
 
             }
 

@@ -76,7 +76,7 @@ public class CrawlManagerImpl implements CrawlManager {
 //                .addUrl("https://basic.10jqka.com.cn/mobile/600071/pubn.html").addPipeline(stockPipeline)
                 .addUrl("http://www.bestopview.com/stocklist.html")
                 .addPipeline(stockPipeline)
-                .thread(5);
+                .thread(6);
 
 
 //        HttpClientDownloader downloader = new HttpClientDownloader(){
