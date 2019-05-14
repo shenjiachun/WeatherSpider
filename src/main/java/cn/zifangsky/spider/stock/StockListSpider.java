@@ -60,7 +60,7 @@ public class StockListSpider implements PageProcessor {
             TushareApi tushareApi = (TushareApi) SpringContext.getBean("tushareApi");
             List<StockCodeInfo> stocks = tushareApi.stocks();
 
-//            Collections.reverse(stocks);
+            Collections.reverse(stocks);
 
             stocks.stream().forEach(
                     item -> {
