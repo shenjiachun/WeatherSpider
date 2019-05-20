@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.zifangsky.mapper.ZqInfoMapper">
+  <resultMap id="BaseResultMap" type="cn.zifangsky.model.ZqInfo">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="zq_date" jdbcType="TIMESTAMP" property="zqDate" />
+    <result column="result" jdbcType="VARCHAR" property="result" />
+    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="zt_type" jdbcType="VARCHAR" property="ztType" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, code, name, zq_date, result, created_at, zt_type
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from zq_info
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from zq_info
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.zifangsky.model.ZqInfo">
+    insert into zq_info (id, code, name, 
+      zq_date, result, created_at, 
+      zt_type)
+    values (#{id,jdbcType=BIGINT}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{zqDate,jdbcType=TIMESTAMP}, #{result,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, 
+      #{ztType,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.zifangsky.model.ZqInfo">
+    insert ignore into zq_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="zqDate != null">
+        zq_date,
+      </if>
+      <if test="result != null">
+        result,
+      </if>
+      <if test="createdAt != null">
+        created_at,
+      </if>
+      <if test="ztType != null">
+        zt_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="zqDate != null">
+        #{zqDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="result != null">
+        #{result,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ztType != null">
+        #{ztType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.zifangsky.model.ZqInfo">
+    update zq_info
+    <set>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="zqDate != null">
+        zq_date = #{zqDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="result != null">
+        result = #{result,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        created_at = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ztType != null">
+        zt_type = #{ztType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.zifangsky.model.ZqInfo">
+    update zq_info
+    set code = #{code,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      zq_date = #{zqDate,jdbcType=TIMESTAMP},
+      result = #{result,jdbcType=VARCHAR},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      zt_type = #{ztType,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

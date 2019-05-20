@@ -1,10 +1,7 @@
 package cn.zifangsky.model;
 
 import com.alibaba.fastjson.JSONArray;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 
 /**
@@ -13,9 +10,14 @@ import lombok.ToString;
  * @create 2018-10-30 15:15
  **/
 @NoArgsConstructor
-@Data
+@AllArgsConstructor
+@Getter
+@Setter
 @ToString
 public class StockCodeInfo {
+
+
+    private Long id;
 
     //股票代码
     private String code;

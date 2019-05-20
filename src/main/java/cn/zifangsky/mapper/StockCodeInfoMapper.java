@@ -13,6 +13,8 @@ public interface StockCodeInfoMapper {
 
     StockCodeInfo selectByPrimaryKey(Integer id);
 
+    StockCodeInfo selectByCode(String code);
+
     int updateByPrimaryKeySelective(StockCodeInfo record);
 
     int updateByPrimaryKey(StockCodeInfo record);

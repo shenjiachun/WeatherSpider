@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="cn.zifangsky.model.StockCodeInfo">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="type" jdbcType="VARCHAR" property="type" />
+      <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="code" jdbcType="VARCHAR" property="code" />
     <result column="area" jdbcType="VARCHAR" property="area" />
     <result column="industry" jdbcType="VARCHAR" property="industry" />
@@ -11,7 +12,7 @@
     <result column="market" jdbcType="VARCHAR" property="market" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, type, code, area, industry, fullname, market
+    id,name, type, code, area, industry, fullname, market
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -19,6 +20,14 @@
     from stock_code_info
     where id = #{id,jdbcType=INTEGER}
   </select>
+
+  <select id="selectByCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from stock_code_info
+    where code = #{code,jdbcType=VARCHAR}
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from stock_code_info
     where id = #{id,jdbcType=INTEGER}

@@ -15,6 +15,8 @@ public interface StockInfoMapper {
 
     StockInfo selectByPrimaryKey(Long id);
 
+    List<StockInfo> selectStockInfos();
+
     int updateByPrimaryKeySelective(StockInfo record);
 
     int updateByPrimaryKey(StockInfo record);

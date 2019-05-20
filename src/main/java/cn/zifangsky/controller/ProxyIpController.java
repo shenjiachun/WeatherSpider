@@ -3,6 +3,7 @@ package cn.zifangsky.controller;
 import cn.zifangsky.manager.CrawlManager;
 import cn.zifangsky.manager.ProxyIpManager;
 import cn.zifangsky.manager.WeatherStationManager;
+import cn.zifangsky.manager.impl.DealStockInfoServiceImpl;
 import cn.zifangsky.model.ProxyIp;
 import cn.zifangsky.model.StockCodeInfo;
 import cn.zifangsky.mq.producer.CheckIPSender;
@@ -146,6 +147,13 @@ public class ProxyIpController {
                 .thread(1);
 
         spider.run();
+    }
+
+    @Autowired
+    DealStockInfoServiceImpl dealStockInfoService;
+    @GetMapping(value = "/dealData")
+    public void dealData() {
+        dealStockInfoService.deal();
     }
 
 

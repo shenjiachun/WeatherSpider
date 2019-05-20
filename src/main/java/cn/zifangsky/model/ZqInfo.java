@@ -5,28 +5,26 @@ import lombok.*;
 import java.util.Date;
 
 
-@ToString
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Setter
 @Getter
-public class StockInfo {
-
+@Setter
+@Builder
+@ToString
+public class ZqInfo {
     private Long id;
 
     private String code;
 
-    private String ztText;
-
-    private String ztType;
+    private String name;
 
     private Date zqDate;
 
-    private String ztdesc;
+    private String result;
 
-    private Integer isDeal;
+    private Date createdAt;
 
+    private String ztType;
 
 
 }
