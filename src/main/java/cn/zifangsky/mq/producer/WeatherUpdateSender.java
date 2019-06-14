@@ -25,7 +25,7 @@ public class WeatherUpdateSender {
         LOGGER.info(MessageFormat.format("开始向Kafka推送数据，topicName:{0}，城镇CODE：{1}", topicName,stationCode));
 
         try {
-            kafkaTemplate.send(topicName, stationCode);
+//            kafkaTemplate.send(topicName, stationCode);
             LOGGER.info("推送数据成功！");
         } catch (Exception e) {
             LOGGER.error(MessageFormat.format("推送数据出错，topicName:{0}，stationCode:{1}"

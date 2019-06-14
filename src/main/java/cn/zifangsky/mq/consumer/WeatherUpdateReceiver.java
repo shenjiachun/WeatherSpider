@@ -1,3 +1,4 @@
+/*
 package cn.zifangsky.mq.consumer;
 
 import cn.zifangsky.manager.CrawlManager;
@@ -17,10 +18,12 @@ public class WeatherUpdateReceiver{
 	@Resource(name="crawlManager")
 	private CrawlManager crawlManager;
 
-	/**
+	*/
+/**
 	 * 接收消息并处理
 	 * @param list
-	 */
+	 *//*
+
 	@KafkaListener(topics = {"${mq.topicName.weather}"},groupId = "group1")
 	public void handle(List<String> list){
 
@@ -34,3 +37,4 @@ public class WeatherUpdateReceiver{
 	}
 
 }
+*/
