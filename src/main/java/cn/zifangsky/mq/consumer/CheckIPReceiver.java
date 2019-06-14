@@ -1,3 +1,4 @@
+/*
 package cn.zifangsky.mq.consumer;
 
 import cn.zifangsky.manager.ProxyIpManager;
@@ -19,10 +20,12 @@ public class CheckIPReceiver {
 	@Resource(name = "proxyIpManager")
 	private ProxyIpManager proxyIpManager;
 
-	/**
+	*/
+/**
 	 * 接收消息并处理
 	 * @param proxyIpBO 待处理的代理IP
-	 */
+	 *//*
+
 	@KafkaListener(topics = {"${mq.topicName.checkIP}"},groupId = "group2")
 	public void handle(ProxyIpBO proxyIpBO) {
         LOGGER.info(MessageFormat.format("接收到消息，代理IP:{0}", proxyIpBO));
@@ -51,3 +54,4 @@ public class CheckIPReceiver {
 	}
 
 }
+*/

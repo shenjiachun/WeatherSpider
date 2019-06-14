@@ -54,8 +54,20 @@ public class StockPipeline implements Pipeline {
         if (list != null && list.size() > 0) {
 
             log.info("保存stockInfo:{}", list.size());
+            try {
 
-            stockInfoMapper.batchInsert(list);
+
+                stockInfoMapper.batchInsert(list);
+            } catch (Exception e) {
+
+                log.error("异常",e);
+                list.stream().forEach(
+                        stockInfo -> {
+                            log.info("错误信息:{}",stockInfo);
+                        }
+                );
+            }
+
         }
 
         if (!CollectionUtils.isEmpty(reportList)) {

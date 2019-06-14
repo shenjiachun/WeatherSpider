@@ -14,6 +14,7 @@ import com.hankcs.hanlp.dictionary.CustomDictionary;
 import com.hankcs.hanlp.model.crf.CRFLexicalAnalyzer;
 import com.hankcs.hanlp.seg.common.Term;
 import com.hankcs.hanlp.tokenizer.NLPTokenizer;
+import com.sun.corba.se.spi.ior.IdentifiableFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.util.Strings;
 import org.joda.time.DateTime;
@@ -109,91 +110,93 @@ public class StockListSpider implements PageProcessor {
 //                    log.info("分词结果:{}", sentence);
 
 
-                    if (contents.get(i).indexOf("2019年一季报每股收益") >= 0
-                            || contents.get(i).indexOf("2018年年报每股收益") >= 0) {
+//                    if (contents.get(i).indexOf("2019年一季报每股收益") >= 0
+//                            || contents.get(i).indexOf("2018年年报每股收益") >= 0) {
+//
+//                        String filetext = contents.get(i).replaceAll("，", "");
+//
+//                        Pattern p = Pattern.compile("(?<=2019年一季报每股收益).*?(?=元净利润)");
+//
+//                        Pattern p1 = Pattern.compile("(?<=元净利润).*?(?=元)");
+//
+//                        Pattern p2 = Pattern.compile("(?<=同比去年增长).*?(?=%)");
+//
+//                        Matcher m = p.matcher(filetext);
+//
+//                        Matcher m1 = p1.matcher(filetext);
+//
+//                        Matcher m2 = p2.matcher(filetext);
+//
+//                        BigDecimal mgsy = BigDecimal.ZERO;
+//                        BigDecimal jlr = BigDecimal.ZERO;
+//                        BigDecimal zzl = BigDecimal.ZERO;
+//
+//
+//                        if (m.find()) {
+//                            String group = m.group();
+//                            mgsy = new BigDecimal(group);
+//                        }
+//
+//                        if (m1.find()) {
+//                            String group = m1.group();
+//                            if (group.indexOf("万") > 0) {
+//                                jlr = new BigDecimal(group.replaceAll("万", "")).multiply(new BigDecimal(10000));
+//                            } else if (group.indexOf("亿") > 0) {
+//                                jlr = new BigDecimal(group.replaceAll("亿", "")).multiply(new BigDecimal(100000000));
+//                            }
+//                        }
+//
+//                        if (m2.find()) {
+//                            String group = m2.group();
+//                            if (!Strings.isNullOrEmpty(group)) {
+//
+//                                zzl = new BigDecimal(group);
+//                            }
+//                        }
+//
+//
+//                        StockYearReport stockYearReport = StockYearReport.builder()
+//                                .code(code).mgsy(mgsy).content(contents.get(i))
+//                                .zzl(zzl)
+//                                .jlr(jlr).reportDate(dateTime.toDate()).build();
+//
+//                        if (contents.get(i).indexOf("2019年一季报每股收益") >= 0) {
+//                            stockYearReport.setType("1");
+//                        } else if (contents.get(i).indexOf("2018年年报每股收益") >= 0) {
+//                            stockYearReport.setType("6");
+//                        } else if (contents.get(i).indexOf("2019年二季报每股收益") >= 0) {
+//                            stockYearReport.setType("2");
+//                        } else if (contents.get(i).indexOf("2019年三季报每股收益") >= 0) {
+//                            stockYearReport.setType("3");
+//                        } else if (contents.get(i).indexOf("2019年四季报每股收益") >= 0) {
+//                            stockYearReport.setType("4");
+//                        }
+//
+//                        stockYearReportList.add(stockYearReport);
+//                        log.info("需要处理的stockYearReport信息：{}", stockYearReport);
+//
+//                    }
 
-                        String filetext = contents.get(i).replaceAll("，", "");
+//                    List<Term> segment = NLPTokenizer.segment(contents.get(i).replaceAll("：", "")
+//                            .replaceAll("；", "").replaceAll("，", ""));
+//
+//                    log.info("分词内容：{}", segment);
+//
+//                    String desc = "";
+//                    if (segment.size() >= 3) {
+//                        desc = segment.get(segment.size() - 3).word + segment.get(segment.size() - 2).word + segment.get(segment.size() - 1).word;
+//                    } else {
+//                        desc = contents.get(i);
+//                    }
 
-                        Pattern p = Pattern.compile("(?<=2019年一季报每股收益).*?(?=元净利润)");
-
-                        Pattern p1 = Pattern.compile("(?<=元净利润).*?(?=元)");
-
-                        Pattern p2 = Pattern.compile("(?<=同比去年增长).*?(?=%)");
-
-                        Matcher m = p.matcher(filetext);
-
-                        Matcher m1 = p1.matcher(filetext);
-
-                        Matcher m2 = p2.matcher(filetext);
-
-                        BigDecimal mgsy = BigDecimal.ZERO;
-                        BigDecimal jlr = BigDecimal.ZERO;
-                        BigDecimal zzl = BigDecimal.ZERO;
-
-
-                        if (m.find()) {
-                            String group = m.group();
-                            mgsy = new BigDecimal(group);
-                        }
-
-                        if (m1.find()) {
-                            String group = m1.group();
-                            if (group.indexOf("万") > 0) {
-                                jlr = new BigDecimal(group.replaceAll("万", "")).multiply(new BigDecimal(10000));
-                            } else if (group.indexOf("亿") > 0) {
-                                jlr = new BigDecimal(group.replaceAll("亿", "")).multiply(new BigDecimal(100000000));
-                            }
-                        }
-
-                        if (m2.find()) {
-                            String group = m2.group();
-                            if (!Strings.isNullOrEmpty(group)) {
-
-                                zzl = new BigDecimal(group);
-                            }
-                        }
-
-
-                        StockYearReport stockYearReport = StockYearReport.builder()
-                                .code(code).mgsy(mgsy).content(contents.get(i))
-                                .zzl(zzl)
-                                .jlr(jlr).reportDate(dateTime.toDate()).build();
-
-                        if (contents.get(i).indexOf("2019年一季报每股收益") >= 0) {
-                            stockYearReport.setType("1");
-                        } else if (contents.get(i).indexOf("2018年年报每股收益") >= 0) {
-                            stockYearReport.setType("6");
-                        } else if (contents.get(i).indexOf("2019年二季报每股收益") >= 0) {
-                            stockYearReport.setType("2");
-                        } else if (contents.get(i).indexOf("2019年三季报每股收益") >= 0) {
-                            stockYearReport.setType("3");
-                        } else if (contents.get(i).indexOf("2019年四季报每股收益") >= 0) {
-                            stockYearReport.setType("4");
-                        }
-
-                        stockYearReportList.add(stockYearReport);
-                        log.info("需要处理的stockYearReport信息：{}", stockYearReport);
-
-                    }
-
-                    List<Term> segment = NLPTokenizer.segment(contents.get(i).replaceAll("：", "")
-                            .replaceAll("；", "").replaceAll("，", ""));
-
-                    log.info("分词内容：{}", segment);
-
-                    String desc = "";
-                    if (segment.size() >= 3) {
-                        desc = segment.get(segment.size() - 3).word + segment.get(segment.size() - 2).word + segment.get(segment.size() - 1).word;
-                    } else {
-                        desc = contents.get(i);
-                    }
-
-                    StockInfo stockInfo = StockInfo.builder().code(code).zqDate(dateTime.toDate()).ztdesc(desc)
+                    if (trim.indexOf("涨停")>=0 || trim.indexOf("异动")>=0) {
+                        StockInfo stockInfo = StockInfo.builder().code(code).zqDate(dateTime.toDate()).ztdesc(contents.get(i))
                             .ztText(contents.get(i)).ztType(trim).build();
 
-                    log.info("需要处理的信息：{}", stockInfo);
+                        log.info("需要处理的信息：{}", stockInfo);
 
-                    list.add(stockInfo);
+                        list.add(stockInfo);
+                    }
 
                 }
                 page.putField("result", list);

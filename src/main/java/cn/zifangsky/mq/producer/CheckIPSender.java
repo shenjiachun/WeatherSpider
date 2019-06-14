@@ -25,7 +25,7 @@ public class CheckIPSender {
         LOGGER.info(MessageFormat.format("开始向Kafka推送数据，topicName：{0}，代理IP：{1}",topicName, proxyIpBO));
 
         try {
-            kafkaTemplate.send(topicName, proxyIpBO);
+//            kafkaTemplate.send(topicName, proxyIpBO);
             LOGGER.info("推送数据成功！");
         } catch (Exception e) {
             LOGGER.error(MessageFormat.format("推送数据出错，topicName:{0},代理IP:{1}"

@@ -64,7 +64,7 @@ public class ScheduledTasks {
      * @date 2018/6/21 13:43
      * @since 1.0.0
      */
-    @Scheduled(cron = "${task.updateWeather.schedule}")
+//    @Scheduled(cron = "${task.updateWeather.schedule}")
     public void updateWeatherTask(){
         Date current = new Date();
         LOGGER.debug(MessageFormat.format("开始执行天气定时更新任务，Date：{0}",FORMAT.format(current)));
@@ -83,7 +83,7 @@ public class ScheduledTasks {
      * @date 2018/6/21 13:50
      * @since 1.0.0
      */
-    @Scheduled(cron = "${task.checkProxyIp.schedule}")
+//    @Scheduled(cron = "${task.checkProxyIp.schedule}")
     public void checkProxyIpTask(){
         Date current = new Date();
         LOGGER.debug(MessageFormat.format("开始执行代理IP定时检测任务，Date：{0}",FORMAT.format(current)));
@@ -151,7 +151,7 @@ public class ScheduledTasks {
      * @date 2018/6/21 13:53
      * @since 1.0.0
      */
-    @Scheduled(cron = "${task.crawlProxyIp_1.schedule}")
+//    @Scheduled(cron = "${task.crawlProxyIp_1.schedule}")
     public void crawlProxyIpTask1(){
         Date current = new Date();
         LOGGER.debug(MessageFormat.format("开始执行代理IP定时获取任务1，Date：{0}",FORMAT.format(current)));
@@ -165,7 +165,7 @@ public class ScheduledTasks {
      * @date 2018/6/21 13:55
      * @since 1.0.0
      */
-    @Scheduled(cron = "${task.crawlProxyIp_2.schedule}")
+//    @Scheduled(cron = "${task.crawlProxyIp_2.schedule}")
     public void crawlProxyIpTask2(){
         Date current = new Date();
         LOGGER.debug(MessageFormat.format("开始执行代理IP定时获取任务2，Date：{0}",FORMAT.format(current)));
@@ -173,4 +173,12 @@ public class ScheduledTasks {
         crawlManager.proxyIPCrawl2();
     }
 
+
+    @Scheduled(cron = "${task.crawlProxyIp_3.schedule}")
+    public void test(){
+        Date current = new Date();
+        LOGGER.debug(MessageFormat.format("开始执行代理IP定时获取任务2，Date：{0}",FORMAT.format(current)));
+
+        crawlManager.stockList();
+    }
 }
