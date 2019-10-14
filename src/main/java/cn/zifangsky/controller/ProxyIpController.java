@@ -8,6 +8,7 @@ import cn.zifangsky.model.ProxyIp;
 import cn.zifangsky.model.StockCodeInfo;
 import cn.zifangsky.mq.producer.CheckIPSender;
 import cn.zifangsky.mq.producer.WeatherUpdateSender;
+import cn.zifangsky.spider.stock.MzSpider;
 import cn.zifangsky.spider.stock.StockListSpider;
 import cn.zifangsky.spider.stock.StockPipeline;
 import cn.zifangsky.spider.stock.StockTopHoldersSpider;
@@ -143,6 +144,17 @@ public class ProxyIpController {
 
         Spider spider = OOSpider.create(new StockTopHoldersSpider())
                 .addUrl("http://www.baidu.com/")
+                .addPipeline(stockPipeline)
+                .thread(1);
+
+        spider.run();
+    }
+
+    @GetMapping(value = "/mz")
+    public void mz() {
+
+        Spider spider = OOSpider.create(new MzSpider())
+                .addUrl("http://www.bce-europe.com/By-Brand-Manufacturer/")
                 .addPipeline(stockPipeline)
                 .thread(1);
 

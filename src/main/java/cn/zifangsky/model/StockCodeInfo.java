@@ -3,9 +3,14 @@ package cn.zifangsky.model;
 import com.alibaba.fastjson.JSONArray;
 import lombok.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 /**
  * 代码信息
+ *
  * @author chenguoxiang
  * @create 2018-10-30 15:15
  **/
@@ -36,7 +41,7 @@ public class StockCodeInfo {
     //上市状态L上市 D退市 P暂停上市
     private String list_status;
     //上市日期
-    private Integer list_date;
+    private Date list_date;
 
 
     /**
@@ -61,22 +66,31 @@ public class StockCodeInfo {
 
     /**
      * data 来源于 tushareSpilder
+     *
      * @param data
      */
-    public StockCodeInfo(JSONArray data){
-        this.code=data.getString(1);
-        this.type=data.getString(0).replaceAll("\\d+\\.","").toLowerCase();
-        this.name=data.getString(2);
-        this.area=data.getString(3);
-        this.industry=data.getString(4);
-        this.fullname=data.getString(5);
-        this.market=data.getString(6);
-        this.list_status=data.getString(7);
-        this.list_date=data.getInteger(8);
-        this.infoDate= 0;
-        this.holdersDate=0;
-        this.yearReportDate=0;
-        this.xlsError=0;
+    public StockCodeInfo(JSONArray data) {
+        this.code = data.getString(1);
+        this.type = data.getString(0).replaceAll("\\d+\\.", "").toLowerCase();
+        this.name = data.getString(2);
+        this.area = data.getString(3);
+        this.industry = data.getString(4);
+        this.fullname = data.getString(5);
+        this.market = data.getString(6);
+        this.list_status = data.getString(7);
+        String str = data.getString(8);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        try {
+            Date parse = sdf.parse(str);
+            this.list_date = parse;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        this.infoDate = 0;
+        this.holdersDate = 0;
+        this.yearReportDate = 0;
+        this.xlsError = 0;
         this.tsCode = data.getString(0);
 
     }

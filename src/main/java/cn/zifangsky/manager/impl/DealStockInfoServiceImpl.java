@@ -14,6 +14,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -77,18 +78,18 @@ public class DealStockInfoServiceImpl implements DealStockInfoService {
             String ztType = stockInfo.getZtType();
 
 
-            if (GlobalConstant.ZQEnum.codeOf(ztType) == GlobalConstant.ZQEnum.ZT) {
+            if (stockInfo.getZtText().indexOf("涨")>=0) {
 
-                ZqInfo zqInfo = getZqInfo(stockInfo, GlobalConstant.ZQEnum.codeOf(ztType));
+                ZqInfo zqInfo = getZqInfo(stockInfo, GlobalConstant.ZQEnum.ZT);
 
-                log.info("插入涨停数据:{}",zqInfo);
+                log.info("插入涨停数据:{}", zqInfo);
                 zqInfoMapper.insertSelective(zqInfo);
 
 
-            } else if (GlobalConstant.ZQEnum.codeOf(ztType) == GlobalConstant.ZQEnum.YD) {
+            } else if (stockInfo.getZtText().indexOf("跌")>=0) {
 
-                ZqInfo zqInfo = getZqInfo(stockInfo, GlobalConstant.ZQEnum.codeOf(ztType));
-                log.info("插入跌停数据:{}",zqInfo);
+                ZqInfo zqInfo = getZqInfo(stockInfo, GlobalConstant.ZQEnum.YD);
+                log.info("插入跌停数据:{}", zqInfo);
                 zqInfoMapper.insertSelective(zqInfo);
 
             } else {
@@ -96,7 +97,7 @@ public class DealStockInfoServiceImpl implements DealStockInfoService {
             }
 
             stockInfo.setIsDeal(1);
-            log.info("更新状态:{}",stockInfo);
+            log.info("更新状态:{}", stockInfo);
             stockInfoMapper.updateByPrimaryKeySelective(stockInfo);
         } catch (Exception e) {
             log.error("股票{}.处理数据异常:", stockInfo, e);
@@ -108,13 +109,14 @@ public class DealStockInfoServiceImpl implements DealStockInfoService {
 
         String ztText = stockInfo.getZtText();
 
-        List<String> list = Splitter.on("类别：").trimResults().splitToList(ztText);
+        List<String> list = Splitter.on("原因或为：").trimResults().splitToList(ztText);
 
         String desc = list.get(1);
 
         StockCodeInfo stockCodeInfo = stockCodeInfoMapper.selectByCode(stockInfo.getCode());
 
-        ZqInfo build = ZqInfo.builder().result(desc).zqDate(stockInfo.getZqDate())
+        ZqInfo build = ZqInfo.builder().result(desc.replaceAll("\\(本信息由问财机器人通过网上已披露信息自动生成，不建议作为交易依据\\)", ""))
+                .zqDate(stockInfo.getZqDate())
                 .name(stockCodeInfo == null ? "" : stockCodeInfo.getName())
                 .code(stockInfo.getCode()).ztType(zqEnum.getCode())
                 .build();

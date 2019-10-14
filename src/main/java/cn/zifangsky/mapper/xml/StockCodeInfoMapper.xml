@@ -46,7 +46,7 @@
 
     insert IGNORE into stock_code_info ( type, code,
       area, industry, fullname,
-      market,name)
+      market,name,list_date)
     values
     <foreach collection="list" item="item" index="index"
              separator=",">
@@ -54,7 +54,8 @@
       #{item.area,jdbcType=VARCHAR}, #{item.industry,jdbcType=VARCHAR},
       #{item.fullname,jdbcType=VARCHAR},
       #{item.market,jdbcType=VARCHAR},
-      #{item.name,jdbcType=VARCHAR}
+      #{item.name,jdbcType=VARCHAR},
+      #{item.list_date,jdbcType=TIMESTAMP}
 
       )
     </foreach>

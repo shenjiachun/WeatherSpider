@@ -10,8 +10,8 @@ public class GlobalConstant {
 
     public enum ZQEnum {
 
-        ZT("1","涨停揭秘", "涨停揭秘"),
-        YD("2","异动揭秘", "异动揭秘");
+        ZT("1","涨停提醒", "涨停揭秘"),
+        YD("2","异动提醒", "异动揭秘");
 
         private String code;
 
