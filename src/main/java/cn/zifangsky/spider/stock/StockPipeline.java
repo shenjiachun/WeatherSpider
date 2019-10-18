@@ -71,7 +71,7 @@ public class StockPipeline implements Pipeline {
         }
 
         if (!CollectionUtils.isEmpty(reportList)) {
-            log.info("保存StockYearReport:{}", list.size());
+            log.info("保存StockYearReport:{}", reportList.size());
             stockYearReportMapper.batchInsert(reportList);
         }
 

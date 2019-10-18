@@ -174,7 +174,7 @@ public class ScheduledTasks {
     }
 
 
-    @Scheduled(cron = "${task.crawlProxyIp_3.schedule}")
+//    @Scheduled(cron = "${task.crawlProxyIp_3.schedule}")
     public void test(){
         Date current = new Date();
         LOGGER.debug(MessageFormat.format("开始执行代理IP定时获取任务2，Date：{0}",FORMAT.format(current)));

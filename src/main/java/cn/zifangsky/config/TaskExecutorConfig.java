@@ -7,6 +7,8 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
+import java.util.concurrent.ThreadPoolExecutor;
+
 /**
  * 线程池、异步任务、定时调度相关配置
  *
@@ -28,6 +30,7 @@ public class TaskExecutorConfig {
         taskExecutor.setMaxPoolSize(10);
         //线程池所使用的缓冲队列
         taskExecutor.setQueueCapacity(25);
+        taskExecutor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
         taskExecutor.initialize();
 
         return taskExecutor;
