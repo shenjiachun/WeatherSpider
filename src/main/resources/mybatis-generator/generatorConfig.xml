@@ -12,8 +12,8 @@
         </commentGenerator>
         <!-- 数据库连接信息 -->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://10.7.0.105:3306/sjc?useUnicode=true&amp;characterEncoding=utf-8&amp;allowMultiQueries=true" userId="root"
-                        password="123456" />
+                        connectionURL="jdbc:mysql://117.51.152.57:3306/test?useUnicode=true&amp;characterEncoding=utf-8&amp;allowMultiQueries=true" userId="root"
+                        password="sjc123" />
 
         <!-- 只有一个属于forceBigDecimals，默认false。 如果字段精确超过0，生成BigDecimal 如果字段精确是0，总长度10-18生成Long;如果字段精确是0，
             总长5-9生成Integer; 如果字段精确是0，总长小于5生成Short; 如果forceBigDecimals为true,统一生成BigDecimal -->
@@ -45,7 +45,7 @@
         </javaClientGenerator>
 
         <!-- 待生成的数据库中的表名，生成一个表对应的Java和xml文件就需要配置一段 -->
-        <table tableName="zq_info" domainObjectName="ZqInfo"
+        <table tableName="ph_data_source_config" domainObjectName="PhDataSourceConfig"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
