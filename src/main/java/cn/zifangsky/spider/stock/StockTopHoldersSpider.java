@@ -2,9 +2,7 @@ package cn.zifangsky.spider.stock;
 
 import cn.zifangsky.config.SpringContext;
 import cn.zifangsky.model.StockCodeInfo;
-import cn.zifangsky.model.StockInfo;
 import cn.zifangsky.model.StockTopHolders;
-import cn.zifangsky.model.StockYearReport;
 import cn.zifangsky.spider.UserAgentUtils;
 import cn.zifangsky.third.api.TushareApi;
 import com.alibaba.fastjson.JSON;
@@ -13,11 +11,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.hankcs.hanlp.seg.common.Term;
-import com.hankcs.hanlp.tokenizer.NLPTokenizer;
 import lombok.extern.slf4j.Slf4j;
-import org.assertj.core.util.Strings;
-import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.springframework.stereotype.Component;
@@ -30,12 +24,9 @@ import us.codecraft.webmagic.selector.Json;
 import us.codecraft.webmagic.utils.HttpConstant;
 
 import java.math.BigDecimal;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * @author shenjiachun

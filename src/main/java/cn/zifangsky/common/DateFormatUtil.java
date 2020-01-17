@@ -66,12 +66,7 @@ public class DateFormatUtil {
      * Description: 根据当前日期获得上周的日期区间（上周周一和周日日期） <br>
      *
      * @param forMatStr 日期格式
-     * @return
-     * @author sw
-     * @Modified by
-     * @CreateDate 2017年5月10日 上午11:36:11
-     * @Version
-     * @since JDK 1.7
+
      */
     public static String getLastTimeInterval(String forMatStr) {
         SimpleDateFormat format = new SimpleDateFormat(forMatStr);
@@ -91,13 +86,7 @@ public class DateFormatUtil {
      * Title:  getTimeInterval<br>
      * Description: 根据制定日期获得上周的日期区间（上周周一和周日日期）<br>
      *
-     * @param date
-     * @param forMatStr
-     * @return
-     * @author sw
-     * @Modified by
-     * @CreateDate 2017年5月10日 上午11:47:43
-     * @Version
+
      * @since JDK 1.7
      */
     public static String getTimeInterval(Date date, String forMatStr) {
@@ -371,14 +360,7 @@ public class DateFormatUtil {
     /**
      * Title:  getPreNumDate<br>
      * Description: 获取当前日期向前/后的某天,以及当前时间,格式：{"start":向前/后天数,"end":当前时间}<br>
-     *
-     * @param date      日期
-     * @param addDayNum 添加/减少的天数
-     * @return
-     * @author sw
-     * @Modified by
-     * @CreateDate 2016年4月27日 上午9:31:48
-     * @Version
+
      * @since JDK 1.7
      */
     public static JSONObject getPreNumDate(Date date, int addDayNum) {
@@ -397,13 +379,7 @@ public class DateFormatUtil {
      * Title:  getPreDateJson<br>
      * Description: 获取当前日期向前/后的某天,以及当前时间,格式：{"start":向前/后天数开始时间,"end":向前/后天数结束时间}<br>
      *
-     * @param date      日期
-     * @param addDayNum 添加/减少的天数
-     * @return
-     * @author sw
-     * @Modified by
-     * @CreateDate 2016年4月27日 上午9:31:48
-     * @Version
+
      * @since JDK 1.7
      */
     public static JSONObject getPreDateJson(Date date, int addDayNum) {
@@ -440,13 +416,7 @@ public class DateFormatUtil {
      * Title:  getStartOrEndOfDay<br>
      * Description: 获取当天开始时间或者结束时间<br>
      *
-     * @param date       日期
-     * @param startOrEnd 一天的开始或者结尾标识
-     * @return
-     * @author sw
-     * @Modified by
-     * @CreateDate 2016年1月15日 上午11:58:32
-     * @Version
+
      * @since JDK 1.6
      */
     public static String getStartOrEndOfDay(Date date, String startOrEnd) {
@@ -485,14 +455,7 @@ public class DateFormatUtil {
      * Title:  getStartOfMonth<br>
      * Description:获取月份第一天<br>
      *
-     * @param date          日期
-     * @param addMonthMount 月份的增减值(如：上个月为-1,当前月为0,下个月是1)
-     * @return
-     * @author sw
-     * @Modified by
-     * @CreateDate 2016年1月15日 下午1:42:51
-     * @Version
-     * @since JDK 1.6
+
      */
     public static String getStartOfMonth(Date date, int addMonthMount) {
         SimpleDateFormat format = new SimpleDateFormat(YMD_HMS);
@@ -510,14 +473,7 @@ public class DateFormatUtil {
      * Title:  getEndOfMonth<br>
      * Description:获取月份最后一天<br>
      *
-     * @param date          时间
-     * @param addMonthMount 月份的增减值(如：上个月为-1,当前月为0,下个月是1)
-     * @return
-     * @author sw
-     * @Modified by
-     * @CreateDate 2016年1月15日 下午1:50:57
-     * @Version
-     * @since JDK 1.6
+
      */
     public static String getEndOfMonth(Date date, int addMonthMount) {
         SimpleDateFormat format = new SimpleDateFormat(YMD_HMS);
@@ -535,14 +491,7 @@ public class DateFormatUtil {
      * Title:  getPreDate<br>
      * Description: 获取当前日期向前/后的某天<br>
      *
-     * @param date      日期
-     * @param addDayNum 添加/减少的天数
-     * @return
-     * @author sw
-     * @Modified by
-     * @CreateDate 2016年4月27日 上午9:31:48
-     * @Version
-     * @since JDK 1.7
+
      */
     public static Date getPreDate(Date date, int addDayNum) {
         Calendar ca = Calendar.getInstance();
@@ -554,16 +503,7 @@ public class DateFormatUtil {
     /**
      * Title:  getNeedDate<br>
      * Description: 获取当前日期向前/后的某天 的字符串<br>
-     *
-     * @param date      日期
-     * @param addDayNum 添加/减少的天数
-     * @param formatStr 返回日期格式
-     * @return
-     * @author sw
-     * @Modified by
-     * @CreateDate 2016年4月27日 上午9:43:23
-     * @Version
-     * @since JDK 1.7
+
      */
     public static String getNeedDate(Date date, int addDayNum, String formatStr) {
         SimpleDateFormat format = new SimpleDateFormat(formatStr);
@@ -581,7 +521,7 @@ public class DateFormatUtil {
      * @param addDayNum  添加/减少的天数
      * @param startOrEnd 一天开始或者结束的标识
      * @return
-     * @author sw
+     * @author wmy
      * @Modified by
      * @CreateDate 2016年4月27日 上午9:43:23
      * @Version
@@ -602,7 +542,7 @@ public class DateFormatUtil {
      * @param date      日志
      * @param formatStr 日期格式(默认：yyyy-MM-dd HH:mm:ss)
      * @return
-     * @author sw
+     * @author wmy
      * @Modified by
      * @CreateDate 2016年5月2日 下午12:20:09
      * @Version
@@ -625,7 +565,7 @@ public class DateFormatUtil {
      *
      * @param date      日志
      * @return
-     * @author sw
+     * @author wmy
      * @Modified by
      * @CreateDate 2016年5月2日 下午12:20:09
      * @Version
@@ -648,7 +588,7 @@ public class DateFormatUtil {
      * @param formatStr
      * @param beginOrEnd 一天的开始或者结束,或者自定义
      * @return
-     * @author sw
+     * @author wmy
      * @Modified by
      * @CreateDate 2017年6月29日 下午3:47:06
      * @Version
@@ -682,7 +622,7 @@ public class DateFormatUtil {
      * @param dateStr   日期字符串
      * @param formatStr 日期格式
      * @return
-     * @author sw
+     * @author wmy
      * @Modified by
      * @CreateDate 2016年5月2日 下午12:23:35
      * @Version
@@ -706,7 +646,7 @@ public class DateFormatUtil {
      * @param str1
      * @param str2
      * @return
-     * @author sw
+     * @author wmy
      * @Modified by
      * @CreateDate 2017年6月13日 上午10:48:12
      * @Version
@@ -736,7 +676,7 @@ public class DateFormatUtil {
      * @param str1
      * @param str2
      * @return
-     * @author sw
+     * @author wmy
      * @Modified by
      * @CreateDate 2017年6月13日 上午10:57:11
      * @Version
